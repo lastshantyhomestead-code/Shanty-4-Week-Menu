@@ -1,0 +1,22 @@
+{
+  "name": "Cheffy 4-Week Menu",
+  "short_name": "Cheffy",
+  "description": "Offline Cheffy 4-week menu with breakfast, lunch, dinner, ingredients and instructions.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f3ed",
+  "theme_color": "#47634b",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

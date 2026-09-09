@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#47634b">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<title>Cheffy Menu</title>
+<style>
+:root{--bg:#f6f3ed;--card:#fff;--ink:#243127;--muted:#68736b;--green:#47634b;--pale:#eaf0e8;--line:#d9ddd6;--breakfast:#fff7dc;--lunch:#edf5ff;--dinner:#eef5ec;--tab:#e7ece6}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:10;background:rgba(246,243,237,.97);border-bottom:1px solid var(--line);padding:12px 14px;backdrop-filter:blur(8px)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}h1{font-size:1.25rem;margin:0}
+.install{border:0;background:var(--green);color:#fff;border-radius:10px;padding:10px 12px;font-weight:700;display:none}
+.weeknav{display:grid;grid-template-columns:48px 1fr 48px;gap:8px;align-items:center;margin-top:10px}
+.weeknav button{height:44px;border:0;border-radius:12px;background:var(--green);color:white;font-size:1.45rem;font-weight:800}
+#weekLabel{text-align:center;font-weight:800;font-size:1.08rem}
+main{max-width:840px;margin:auto;padding:14px}
+.prepbox{background:#fff7e5;border:1px solid #ead9b0;border-radius:14px;padding:12px 14px;margin-bottom:14px}
+.prepbox h2{font-size:1rem;margin:0 0 6px}.prepbox p{margin:4px 0;color:#5e624f;font-size:.9rem}
+.day{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.dayhead{padding:12px 14px;background:var(--pale);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.dayname{font-size:1rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.prep{font-size:.75rem;color:var(--muted);text-align:right;max-width:55%}
+.meals{padding:10px}.meal{width:100%;border:0;border-radius:12px;margin:6px 0;padding:12px 14px;text-align:left;color:var(--ink);display:grid;grid-template-columns:82px 1fr 20px;align-items:center;gap:8px}
+.meal b{font-size:.76rem;text-transform:uppercase;letter-spacing:.05em}.meal span{font-size:1rem;font-weight:750}.meal.breakfast{background:var(--breakfast)}.meal.lunch{background:var(--lunch)}.meal.dinner{background:var(--dinner)}
+.chev{font-size:1.25rem;color:var(--muted)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.46);z-index:50;display:none;align-items:flex-end}.modal.open{display:flex}
+.sheet{background:#fff;width:100%;max-height:90vh;border-radius:20px 20px 0 0;padding:18px;overflow:auto}
+.sheettop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.sheet h2{margin:0;font-size:1.28rem}.close{border:0;background:#e9ece8;border-radius:50%;width:40px;height:40px;font-size:1.3rem}
+.tabs{display:flex;gap:8px;margin:14px 0}.tab{border:0;border-radius:10px;padding:10px 12px;font-weight:750;background:var(--tab);color:var(--ink)}.tab.active{background:var(--green);color:#fff}
+.ref{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}.ref h3{margin:0 0 4px;font-size:1.05rem}.meta{font-size:.8rem;color:var(--muted);margin-bottom:8px}
+ul,ol{margin:8px 0 0;padding-left:22px}li{margin:7px 0;line-height:1.35}.empty{color:var(--muted);font-style:italic}
+.notes{margin-top:10px;padding:10px;border-radius:10px;background:#f7f7f4;color:#5f665f;font-size:.88rem}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;padding:4px 0 24px}
+@media(min-width:720px){.modal{align-items:center;justify-content:center}.sheet{max-width:680px;border-radius:20px;max-height:84vh}}
+</style>
+</head>
+<body>
+<header><div class="top"><h1>Cheffy 4-Week Menu</h1><button id="installBtn" class="install">Install app</button></div>
+<div class="weeknav"><button id="prev">‹</button><div id="weekLabel">Week 1</div><button id="next">›</button></div></header>
+<main id="calendar"></main>
+<div id="modal" class="modal"><div class="sheet">
+<div class="sheettop"><h2 id="modalTitle">Recipe</h2><button id="close" class="close">×</button></div>
+<div class="tabs"><button id="tabIng" class="tab active">Ingredients</button><button id="tabIns" class="tab">Instructions</button></div>
+<div id="modalBody"></div></div></div>
+<script src="data.js"></script>
+<script>
+const data=window.CHEFFY_DATA;let current=Number(localStorage.getItem('cheffyWeek')||0);let currentMeal=null;let currentTab='ingredients';
+const cal=document.getElementById('calendar'),modal=document.getElementById('modal'),body=document.getElementById('modalBody'),title=document.getElementById('modalTitle');
+function render(){
+ const w=data.weeks[current];document.getElementById('weekLabel').textContent=w.week;cal.innerHTML='';
+ const prep=data.weeklyPrep[w.week];
+ if(prep && (prep.salad||prep.baking||prep.notes)){const b=document.createElement('section');b.className='prepbox';b.innerHTML=`<h2>Sunday Prep</h2>${prep.salad?`<p><b>Weekly salad:</b> ${prep.salad}</p>`:''}${prep.baking?`<p><b>Weekly baking:</b> ${prep.baking}</p>`:''}${prep.notes?`<p>${prep.notes}</p>`:''}`;cal.appendChild(b)}
+ w.days.forEach(d=>{const card=document.createElement('section');card.className='day';card.innerHTML=`<div class="dayhead"><div class="dayname">${d.day}</div><div class="prep">${d.prep||''}</div></div><div class="meals"></div>`;const box=card.querySelector('.meals');
+ ['breakfast','lunch','dinner'].forEach(type=>{const m=d.meals[type],btn=document.createElement('button');btn.className='meal '+type;btn.innerHTML=`<b>${type}</b><span>${m.label}</span><div class="chev">›</div>`;btn.onclick=()=>openMeal(m);box.appendChild(btn)});cal.appendChild(card)});
+ const f=document.createElement('div');f.className='footer';f.textContent='Tap any meal for ingredients and instructions.';cal.appendChild(f);localStorage.setItem('cheffyWeek',current);window.scrollTo({top:0,behavior:'smooth'})
+}
+function openMeal(m){currentMeal=m;currentTab='ingredients';syncTabs();title.textContent=m.label;renderModal();modal.classList.add('open')}
+function syncTabs(){document.getElementById('tabIng').classList.toggle('active',currentTab==='ingredients');document.getElementById('tabIns').classList.toggle('active',currentTab==='instructions')}
+function renderModal(){
+ body.innerHTML='';const m=currentMeal;if(!m.refs||!m.refs.length){body.innerHTML='<p class="empty">This is a leftover/simple-use meal, so there is no separate recipe to prepare.</p>';return}
+ m.refs.forEach(refName=>{const r=data.details[refName];if(!r)return;const sec=document.createElement('section');sec.className='ref';const meta=[r.category,r.yield].filter(Boolean).join(' • ');sec.innerHTML=`<h3>${r.name}</h3>${meta?`<div class="meta">${meta}</div>`:''}`;
+ const items=currentTab==='ingredients'?r.ingredients:r.instructions;if(items&&items.length){const list=document.createElement(currentTab==='ingredients'?'ul':'ol');items.forEach(x=>{const li=document.createElement('li');li.textContent=x;list.appendChild(li)});sec.appendChild(list)}else sec.innerHTML+='<p class="empty">No details stored.</p>';
+ if(r.notes){const n=document.createElement('div');n.className='notes';n.textContent=r.notes;sec.appendChild(n)}body.appendChild(sec)})
+}
+document.getElementById('tabIng').onclick=()=>{currentTab='ingredients';syncTabs();renderModal()}
+document.getElementById('tabIns').onclick=()=>{currentTab='instructions';syncTabs();renderModal()}
+function closeModal(){modal.classList.remove('open')}document.getElementById('close').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()}
+document.getElementById('prev').onclick=()=>{current=(current+3)%4;render()};document.getElementById('next').onclick=()=>{current=(current+1)%4;render()}
+let deferredPrompt;const installBtn=document.getElementById('installBtn');window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.style.display='block'});installBtn.onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.style.display='none'}
+if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'))}
+render();
+</script></body></html>
