@@ -1,7 +1,7 @@
 {
-  "name": "Cheffy 4-Week Menu",
+  "name": "Cheffy Menu Rotations",
   "short_name": "Cheffy",
-  "description": "Offline Cheffy 4-week menu with breakfast, lunch, dinner, ingredients and instructions.",
+  "description": "Offline Cheffy menu rotations with clickable meals and weekly prep recipes.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

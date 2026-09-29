@@ -1,22 +1,26 @@
-CHEFFY 4-WEEK MENU PWA v2
+CHEFFY APP – ROTATION B UPDATE
 
-Included:
-- Breakfast, lunch and dinner for each day
-- Tap any meal to open recipe details
-- Ingredients / Instructions tabs
-- Yield/category when available
-- Recipe notes when available
-- Weekly Sunday prep card for salad + baking
-- Previous/next week navigation
-- Remembers the last viewed week
-- Offline support after installation
+WHAT CHANGED
+- Rotation A is preserved.
+- Rotation B Weeks 1–4 is added.
+- Rotation selector added at the top of the app.
+- Weekly/Sunday prep items are now tappable.
+- Weekly salad, baking/snack, emergency meal, and listed prep recipes open the same Ingredients / Instructions panel as weekday meals.
+- Rotation B includes the new low-active-cook and Emergency Easy meal logic.
+- The service-worker cache version was bumped so the updated files replace the older offline copy.
 
-Install:
-1. Upload ALL files in this folder to a static HTTPS host (GitHub Pages, Netlify, Cloudflare Pages, etc.).
-2. Open the hosted HTTPS URL in Chrome on the Lenovo tablet.
-3. Choose Install app / Add to Home screen.
-4. Open once while online so the offline cache is created.
-5. After that the app can be used offline.
+GITHUB UPDATE
+1. Open the same GitHub repository you used for Cheffy.
+2. Replace/upload:
+   index.html
+   data.js
+   manifest.json
+   service-worker.js
+   icon-192.png
+   icon-512.png
+3. Commit the changes.
+4. After GitHub Pages updates, open the site in Chrome on the tablet.
+5. If the installed app still shows the old version, fully close and reopen it. If necessary, refresh the site once in Chrome before reopening the installed app.
 
-Important:
-A PWA cannot fully install from a local file:// URL. It must first be served over HTTPS.
+IMPORTANT
+Keep all six files in the same repository folder.
