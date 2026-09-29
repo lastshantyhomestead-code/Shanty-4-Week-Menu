@@ -1,7 +1,7 @@
 {
   "name": "Cheffy Menu Rotations",
   "short_name": "Cheffy",
-  "description": "Offline Cheffy menu rotations with clickable meals and weekly prep recipes.",
+  "description": "Offline Cheffy Rotation A and B menu with tappable meals and weekly prep recipes.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
