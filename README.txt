@@ -1,39 +1,41 @@
-CHEFFY STABLE ROTATION A + B PWA
+CHEFFY — APPLE + ANDROID STABLE BUILD
 
-This rebuild intentionally DOES NOT use data.js.
-All menu and recipe data is embedded inside index.html so a mixed or missing data.js cannot break the app.
+This build starts from the stable Rotation A + Rotation B version that was already working.
 
-FILES THAT MUST BE IN THE GITHUB PAGES FOLDER WITH THESE EXACT NAMES:
+UPLOAD THESE EXACT FILENAMES TO THE SAME GITHUB PAGES FOLDER:
 - index.html
 - manifest.json
 - service-worker.js
 - icon-192.png
 - icon-512.png
+- apple-touch-icon.png
+- README.txt (optional)
 
-IMPORTANT BEFORE DEPLOYING:
-1. Replace the old files with these exact filenames.
-2. Delete or ignore duplicate files such as index(2).html, manifest(2).json, service-worker(2).js, icon-192(1).png, icon-512(1).png.
-3. The old data.js is no longer used and can be deleted from the repo to avoid confusion.
-4. Commit the changes.
-5. Let GitHub Pages deploy.
-6. Open the web URL in Chrome and refresh once.
-7. Fully close the installed Cheffy app and reopen it.
+IMPORTANT
+- There is still NO data.js dependency.
+- An old data.js left in GitHub will not affect this build.
+- Replace the existing files rather than uploading copies named (1), (2), etc.
+- The service-worker cache is now cheffy-v5-apple-android.
 
-WHAT IS INCLUDED:
+ANDROID
+Open Cheffy in Chrome and use Install app when shown.
+
+IPHONE / IPAD
+Open Cheffy in Safari.
+Tap the Install on iPhone/iPad button for on-screen directions.
+Then use Share > Add to Home Screen > Open as Web App (if shown) > Add.
+
+PRESERVED
 - Rotation A Weeks 1–4
 - Rotation B Weeks 1–4
-- Rotation selector
-- Breakfast / lunch / dinner tappable recipe cards
-- Weekly salad tappable recipe card
-- Weekly baking/snack tappable recipe card
-- Rotation B prep recipes tappable where applicable
-- Rotation B Emergency Easy recipe tappable
-- Ingredients / Instructions tabs
+- All embedded recipe data
+- Tappable breakfast/lunch/dinner
+- Tappable Sunday / Weekly Prep recipes
+- Ingredients / Instructions
 - Offline support
-- Update-friendly network-first service worker
 
-WHY THE PREVIOUS DEPLOYMENT COULD BREAK:
-- index.html depended on a separate data.js.
-- A new index with an old data.js creates a schema mismatch.
-- Duplicate filenames like index(2).html are not the same as index.html.
-- The old cache-first service worker could continue serving older files.
+ADDED
+- Apple Home Screen icon
+- Apple standalone metadata
+- iPhone/iPad safe-area handling
+- Apple-specific install instructions
