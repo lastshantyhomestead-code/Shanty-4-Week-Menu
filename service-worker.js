@@ -1,4 +1,4 @@
-const CACHE='cheffy-v5-apple-android';
+const CACHE='cheffy-v6-grocery';
 const ASSETS=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 
 self.addEventListener('install',event=>{
