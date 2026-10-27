@@ -1,4 +1,4 @@
-const CACHE='cheffy-v6-grocery';
+const CACHE='cheffy-classic-v7-four-rotations';
 const ASSETS=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 
 self.addEventListener('install',event=>{
